@@ -35,10 +35,10 @@ terraform {
 }
 
 provider "cloudflare" {
-/* 
-  ENVIRONMENT VARIABLES
-  ---------------------
-  CLOUDFLARE_EMAIL & CLOUDFLARE_API_KEY
-  or CLOUDFLARE_API_TOKEN
-/*
+  /* 
+    ENVIRONMENT VARIABLES
+    ---------------------
+    CLOUDFLARE_EMAIL & CLOUDFLARE_API_KEY
+    or CLOUDFLARE_API_TOKEN
+  */
 }
