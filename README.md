@@ -1,23 +1,60 @@
 # Cloudflare Terraform Template
 
-Simple repository template for [managing Cloudflare Accounts with Terraform](https://developers.cloudflare.com/terraform/).
+Basic repository template for new [Cloudflare Terraform](https://developers.cloudflare.com/terraform/) projects.
+
+A `Justfile` (think `Makefile`, see [`just`](https://just.systems) for more information) can be installed by running `brew install just`. This is included for convenience but isn't required. 
 
 ## Get Started
 
-```
-gh repo create REPO_NAME --template 25thhour/cf-terraform-template
+```sh
+$ gh repo create REPO_NAME --template 25thhour/cf-terraform-template
+# if you have just installed
+$ just init
+# alternatively
+$ cd terraform && cp terraform.tfvars.example terraform.tfvars
 ```
 
-### Configure Environment Variables
+### Variables
 
-Update `terraform.tfvars.example` with appropriate variable values and rename the file to `terraform.tfvars`. As this file contains **secrets** it's listed in the repository `.gitignore` file to prevent accidental commits to version control.
+```sh
+$ cd terraform
+$ cp terraform.tfvars.example terraform.tfvars
+```
+
+Update the `terraform.tfvars` file with appropriate values.
+
+As this file may end up containing **secrets** it's listed in the repository [`.gitignore`](./.gitignore) file to prevent accidental commits to version control.
 
 ### Authentication
 
-🚨 **NOTE**: the template assumes you'll be using your `Global API Key` to authenticate with the Cloudflare API. This is **not** recommended. Security best practice would be to use an appropriately [scoped API Token](https://developers.cloudflare.com/api/tokens/create/).
+It is recommended to create a _scoped_ [API Token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/) and assign this secret to a `CLOUDFLARE_API_TOKEN` environment variable. See [Dotenv](#dotenv---environment-variables) for details.
 
-You can also remove the API credential from the `terraform.tfvars` file entirely by setting a [shell environment variable](https://learn.hashicorp.com/tutorials/terraform/sensitive-variables?in=terraform/configuration-language#set-values-with-environment-variables) that Terraform will pickup and use at runtime, e.g.
+🚨 **NOTE**: whilst it's possible to instead use a [`Global API key`](https://developers.cloudflare.com/fundamentals/api/get-started/keys/) to authenticate against the Cloudflare API, this is **not** recommended. Security best practice would be to use an appropriately _scoped_ [API Token](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/).
 
+### Dotenv - Environment Variables
+
+At a minimum the following environment variables are required.
+
+| Name                  | Use Case              |
+| --------------------- | --------------------- |
+| AWS_ACCESS_KEY_ID     | Authenticating to R2  |
+| AWS_SECRET_ACCESS_KEY | Authenticating to R2  |
+| AWS_S3_ENDPOINT       | R2 storage endpoint   |
+| CLOUDFLARE_API_TOKEN  | Scoped API token      |
+
+#### 1Password
+
+An `.env.example` is bundled with 1Password placeholders (`op://`).
+If you're using 1Password, update with appropriate secret paths then run the following command to inject these values into a `.env` output file:
+
+```sh
+$ just dotenv
 ```
-export TF_VAR_cloudflare_api_key=ABC123
+
+#### Not using 1Password
+
+Manually copy `.env.example` to `.env` then replace the 1Password placeholders (`op://…`) with your secret values.
+
+```sh
+$ cp .env.example .env
 ```

@@ -1,0 +1,3 @@
+cloudflare_account_id = "YOUR CLOUDFLARE ACCOUNT ID"
+cloudflare_zone_name = "YOUR ZONE/DOMAIN"
+prefix = "PREFIX STRING"
